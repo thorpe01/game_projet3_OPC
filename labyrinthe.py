@@ -4,7 +4,7 @@ import pygame
 class Labyrinthe(pygame.sprite.Sprite):
 
     def __init__(self, player, gardien, game):
-        super(Labyrinthe, self).__init__()
+        super().__init__()
         self.player = player
         self.game = game
         self.gardien = gardien

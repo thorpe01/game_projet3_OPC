@@ -24,7 +24,7 @@ class Player(pygame.sprite.Sprite):
 
     # utilisation de la seringue
     def use_seringue(self):
-        self.coup.add(Seringue())
+        self.coup.add(Seringue(self))
 
     def move_right(self):
         self.rect.x += self.velocity

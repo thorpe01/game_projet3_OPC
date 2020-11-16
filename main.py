@@ -22,6 +22,9 @@ while running:
     screen.blit(game.gardien.image, game.gardien.rect)
     game.player.coup.draw(screen)
 
+    for seringue in game.player.coup:
+        seringue.move()
+
     pygame.display.flip()
 
     if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x + game.player.rect.width < screen.get_width() \
