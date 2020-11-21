@@ -3,11 +3,12 @@ import pygame
 
 class Labyrinthe(pygame.sprite.Sprite):
 
-    def __init__(self, player, gardien, game):
+    def __init__(self, player, gardien, obj1, obj2):
         super().__init__()
         self.player = player
-        self.game = game
         self.gardien = gardien
+        self.object1 = obj1
+        self.object2 = obj2
         self.laby = []
         self.all_mur = pygame.sprite.Group()
         self.image_mur = pygame.image.load("ressource/mur.png")
@@ -20,8 +21,8 @@ class Labyrinthe(pygame.sprite.Sprite):
         self.image_mur = -1
         x_depart = self.player.image
         y_arrive = self.gardien.image
-        self.game.objet2 = 7
-        self.game.objet1 = 8
+        self.object2 = 7
+        self.object1 = 8
 
         self.laby += [[x_depart, -1, -1, -1, -1, -1, -1, -1]]
         self.laby += [[-1, 0, 0, 0, 0, 0, 0, -1]]
@@ -38,3 +39,4 @@ class Labyrinthe(pygame.sprite.Sprite):
         self.laby += [[-1, 0, 0, 0, -1, -1, 0, -1]]
         self.laby += [[-1, -1, -1, 0, 0, 0, 0, y_arrive]]
         self.laby += [[-1, -1, -1, -1, -1, -1, -1, -1]]
+
