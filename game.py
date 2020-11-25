@@ -11,6 +11,7 @@ class Game:
         self.init_persos()
         self.init_objets()
         self.init_labyrinthe()
+        self.all_mur = pygame.sprite.Group()
 
     def init_game(self):
         pygame.init()
@@ -32,12 +33,15 @@ class Game:
         self.objet2 = pygame.transform.scale(self.objet2, (40, 34))
         self.rect = self.objet2.get_rect()
 
+
     def init_labyrinthe(self):
         self.labyrinthe = Labyrinthe(self.player, self.gardien, self.objet1, self.objet2)
         self.labyrinthe.gener()
 
-    def collision(self, sprite, group):
-        return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
+    def init_wall(self):
+        pass
+
+
 
     def outils(self):
 
