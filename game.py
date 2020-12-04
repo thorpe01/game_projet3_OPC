@@ -7,11 +7,11 @@ from player import Player
 
 class Game:
     def __init__(self):
+
         self.init_game()
         self.init_persos()
         self.init_objets()
         self.init_labyrinthe()
-        self.all_mur = pygame.sprite.Group()
 
     def init_game(self):
         pygame.init()
@@ -27,50 +27,40 @@ class Game:
 
     def init_objets(self):
         self.objet1 = pygame.image.load("ressource/tube_plastique.png").convert_alpha()
-        self.objet1 = pygame.transform.scale(self.objet1, (40, 34))
+        self.objet1 = pygame.transform.scale(self.objet1, (33, 33))
         self.rect = self.objet1.get_rect()
         self.objet2 = pygame.image.load("ressource/ether.png").convert_alpha()
-        self.objet2 = pygame.transform.scale(self.objet2, (40, 34))
+        self.objet2 = pygame.transform.scale(self.objet2, (33, 33))
         self.rect = self.objet2.get_rect()
-
+        self.objet3 = pygame.image.load("ressource/aiguille.png").convert_alpha()
+        self.objet3 = pygame.transform.scale(self.objet3, (33, 33))
+        self.rect = self.objet3.get_rect()
 
     def init_labyrinthe(self):
-        self.labyrinthe = Labyrinthe(self.player, self.gardien, self.objet1, self.objet2)
-        self.labyrinthe.gener()
-
-    def init_wall(self):
-        pass
-
-
+        self.labyrinthe = Labyrinthe(self.player, self.gardien, self.objet1, self.objet2,self.objet3,self.)
+        self.labyrinthe.generate_tab()
 
     def outils(self):
 
         if self.player.image == self.objet1:
             self.invent.__add__(self.objet1)
             print("vous avez un item ")
-        elif self.player.image == self.objet2:
+        if self.player.image == self.objet2:
             self.invent.__add__(self.objet2)
             print("vous avez deux items ")
+        if self.player.image == self.objet3:
+            self.invent.__add__(self.objet3)
+            print("vous avez trois items ")
 
-    def supp(self):
-        self.invent.pop()
+    def run(self, player, objet1, objet2, objet3):
 
-    def take_objet1(self):
-        self.objet1.remove(self.labyrinthe.laby)
-        pass
-
-    def take_objet2(self):
-        self.objet2.remove(self.labyrinthe.laby)
-        pass
-
-    def run(self):
         running = True
-
         while running:
 
             self.screen.blit(self.background, (0, 0))
             self.screen.blit(self.player.image, self.player.rect)
             self.screen.blit(self.gardien.image, self.gardien.rect)
+
             self.player.coup.draw(self.screen)
 
             for seringue in self.player.coup:
@@ -100,3 +90,17 @@ class Game:
                         self.player.use_seringue()
                 elif event.type == pygame.KEYUP:
                     self.pressed[event.key] = False
+
+                #if (player.rect.x, player.rect.y) == (objet1.rect.x, objet1.rect.y):
+                    # player.pick_up(objet1)
+
+                #if (player.position_x, player.position_y) == (objet2.position_x, objet2.position_y):
+                   # player.pick_up(objet2)
+
+                #if (player.position_x, player.position_y) == (objet3.position_x, objet3.position_y):
+                   #player.pick_up(objet3)
+
+                #inst_laby.refresh_maze(object_to_display)
+
+                #if (mcGyver.position_x, mcGyver.position_y) == (warden.position_x, warden.position_y):
+                    #game_loop = 0

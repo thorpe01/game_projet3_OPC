@@ -11,5 +11,3 @@ class Gardien(pygame.sprite.Sprite):
         self.rect.x = 470
         self.rect.y = 460
 
-    def loose_party(self):
-        self.image.add(Gardien())

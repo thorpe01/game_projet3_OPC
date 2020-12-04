@@ -10,13 +10,13 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         self.health = 10
-        self.velocity = 1
+        self.velocity = 5
         self.attack = 2
         self.coup = pygame.sprite.Group()
         self.image = pygame.image.load('ressource/MacGyver.png')
         self.rect = self.image.get_rect()
-        self.rect.x = 15
-        self.rect.y = 15
+        self.rect.x = 0
+        self.rect.y = 0
 
     # attack du player avec la seringue
     # def build_seringue(self):
@@ -25,39 +25,16 @@ class Player(pygame.sprite.Sprite):
     def use_seringue(self):
         self.coup.add(Seringue(self))
 
-    def recup_objet(self):
-
-        pass
-
-    # utilisation de la seringue
     def move_right(self):
-        if not self.collision(self, self.labyrinthe.all_mur):
-            self.rect.x += self.velocity
-        elif self.collision(self, self.labyrinthe.objet1) or self.collision(self, self.labyrinthe.objet2):
-            self.outils()
+        self.rect.x += self.velocity
 
     def move_left(self):
-        if not self.collision(self, self.all_mur):
-            self.rect.x -= self.velocity
-        elif self.collision(self, self.labyrinthe.objet1) or self.collision(self, self.labyrinthe.objet2):
-            self.outils()
+        self.rect.x -= self.velocity
 
     def move_up(self):
-        if not self.collision(self, self.all_mur):
-            self.rect.y -= self.velocity
-        elif self.collision(self, self.labyrinthe.objet1) or self.collision(self, self.labyrinthe.objet2):
-            self.outils()
+        self.rect.y -= self.velocity
 
     def move_down(self):
-        if not self.collision(self, self.all_mur):
-            self.rect.y += self.velocity
-        elif self.collision(self, self.labyrinthe.objet1) or self.collision(self, self.labyrinthe.objet2):
-            self.outils()
+        self.rect.y += self.velocity
 
-    def outils(self):
 
-        if self.image == self.labyrinthe.objet1:
-            self.init_game.invent.__add__(self.labyrinthe.objet1)
-            print("vous avez un item ")
-            self.init_game.invent.__add__(self.labyrinthe.objet2)
-            print("vous avez deux items ")
