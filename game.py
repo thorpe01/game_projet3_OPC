@@ -1,5 +1,6 @@
 import pygame
 
+
 from gardien import Gardien
 from labyrinthe import Labyrinthe
 from player import Player
@@ -19,6 +20,7 @@ class Game:
         self.screen = pygame.display.set_mode((500, 500))
         self.background = pygame.image.load('ressource/fond.jpg')
         self.invent = []
+        self.all_mur = pygame.sprite.Group()
         self.pressed = {}
 
     def init_persos(self):
@@ -26,42 +28,39 @@ class Game:
         self.gardien = Gardien()
 
     def init_objets(self):
-        self.objet1 = pygame.image.load("ressource/tube_plastique.png").convert_alpha()
-        self.objet1 = pygame.transform.scale(self.objet1, (33, 33))
-        self.rect = self.objet1.get_rect()
-        self.objet2 = pygame.image.load("ressource/ether.png").convert_alpha()
-        self.objet2 = pygame.transform.scale(self.objet2, (33, 33))
-        self.rect = self.objet2.get_rect()
-        self.objet3 = pygame.image.load("ressource/aiguille.png").convert_alpha()
-        self.objet3 = pygame.transform.scale(self.objet3, (33, 33))
-        self.rect = self.objet3.get_rect()
+        pass
 
     def init_labyrinthe(self):
-        self.labyrinthe = Labyrinthe(self.player, self.gardien, self.objet1, self.objet2,self.objet3,self.)
+        #print("init labyrinthe")
+        self.labyrinthe = Labyrinthe( self.player)
+
+    def refresh_tab(self, object_to_display):
+        """Method that refreshes the window to display all relevent images"""
+        i = 0
+        self.screen.blit(self.background, (0, 0))
         self.labyrinthe.generate_tab()
+        while i < len(object_to_display):
+            self.screen.blit(object_to_display[i].image,
+                             (object_to_display[i].position_x * 36, object_to_display[i].position_y * 36))
+            i += 1
+        pygame.display.flip()
 
-    def outils(self):
 
-        if self.player.image == self.objet1:
-            self.invent.__add__(self.objet1)
-            print("vous avez un item ")
-        if self.player.image == self.objet2:
-            self.invent.__add__(self.objet2)
-            print("vous avez deux items ")
-        if self.player.image == self.objet3:
-            self.invent.__add__(self.objet3)
-            print("vous avez trois items ")
 
-    def run(self, player, objet1, objet2, objet3):
+    def run(self):
+
+
+
 
         running = True
         while running:
 
             self.screen.blit(self.background, (0, 0))
-            self.screen.blit(self.player.image, self.player.rect)
-            self.screen.blit(self.gardien.image, self.gardien.rect)
+            self.screen.blit(self.player.image_player, self.player.rect)
+            self.screen.blit(self.gardien.image_gardien, self.gardien.rect)
 
             self.player.coup.draw(self.screen)
+            self.labyrinthe.generate_tab()
 
             for seringue in self.player.coup:
                 seringue.move()
@@ -91,16 +90,16 @@ class Game:
                 elif event.type == pygame.KEYUP:
                     self.pressed[event.key] = False
 
-                #if (player.rect.x, player.rect.y) == (objet1.rect.x, objet1.rect.y):
-                    # player.pick_up(objet1)
+                # if (player.rect.x, player.rect.y) == (objet1.rect.x, objet1.rect.y):
+                # player.pick_up(objet1)
 
-                #if (player.position_x, player.position_y) == (objet2.position_x, objet2.position_y):
-                   # player.pick_up(objet2)
+                # if (player.position_x, player.position_y) == (objet2.position_x, objet2.position_y):
+                # player.pick_up(objet2)
 
-                #if (player.position_x, player.position_y) == (objet3.position_x, objet3.position_y):
-                   #player.pick_up(objet3)
+                # if (player.position_x, player.position_y) == (objet3.position_x, objet3.position_y):
+                # player.pick_up(objet3)
 
-                #inst_laby.refresh_maze(object_to_display)
+                # inst_laby.refresh_maze(object_to_display)
 
-                #if (mcGyver.position_x, mcGyver.position_y) == (warden.position_x, warden.position_y):
-                    #game_loop = 0
+                # if (mcGyver.position_x, mcGyver.position_y) == (warden.position_x, warden.position_y):
+                # game_loop = 0

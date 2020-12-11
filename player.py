@@ -10,11 +10,12 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         self.health = 10
-        self.velocity = 5
+        self.velocity = 10
         self.attack = 2
         self.coup = pygame.sprite.Group()
-        self.image = pygame.image.load('ressource/MacGyver.png')
-        self.rect = self.image.get_rect()
+        self.image_player = pygame.image.load('ressource/MacGyver.png')
+        self.rect = self.image_player.get_rect()
+        self.image_player = pygame.transform.scale(self.image_player, (30, 30))
         self.rect.x = 0
         self.rect.y = 0
 
@@ -26,6 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.coup.add(Seringue(self))
 
     def move_right(self):
+
         self.rect.x += self.velocity
 
     def move_left(self):
