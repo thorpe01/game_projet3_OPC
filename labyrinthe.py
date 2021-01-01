@@ -9,12 +9,10 @@ class Labyrinthe(pygame.sprite.Sprite):
         mur = "ressource/mur.png"
         gardien_image = "ressource/Gardien.png"
         liste = "ressource/labyrinthe.txt"
-
         objet2 = "ressource/ether.png"
         objet3 = "ressource/aiguille1.png"
         objet1 = "ressource/tube_plastique.png"
 
-        #self.player = player
         self.screen_lab = pygame.display.set_mode((500, 500))
         self.list = []
         self.objet3 = objet3
@@ -22,7 +20,7 @@ class Labyrinthe(pygame.sprite.Sprite):
         self.objet1 = objet1
         self.mur = mur
         self.gardien_image = gardien_image
-        #self.collision = []
+
         with open(liste) as levels:
 
             for line in levels:  # For every line in our file
@@ -37,7 +35,7 @@ class Labyrinthe(pygame.sprite.Sprite):
 
         from pprint import pprint
         # pprint(self.liste)
-
+        #print(self.list)
     def generate_tab(self):
         # print("init generate_tab")
 
@@ -51,7 +49,6 @@ class Labyrinthe(pygame.sprite.Sprite):
                     rect_Mur = Mur.get_rect()
                     rect_Mur.x = x * 33
                     rect_Mur.y = y * 33
-                    #self.collision.append(rect_Mur)
                     self.screen_lab.blit(Mur, rect_Mur)
 
                 if self.list[y][x] == "S":
@@ -64,6 +61,7 @@ class Labyrinthe(pygame.sprite.Sprite):
                 if self.list[y][x] == "O1":
                     tuile2 = pygame.image.load(self.objet1).convert_alpha()
                     rect = tuile2.get_rect()
+                    tuile2 = pygame.transform.scale(tuile2, (30, 30))
                     rect.x = x * 33
                     rect.y = y * 33
                     self.screen_lab.blit(tuile2, rect)
@@ -81,5 +79,12 @@ class Labyrinthe(pygame.sprite.Sprite):
                     rect.x = x * 33
                     rect.y = y * 33
                     self.screen_lab.blit(tuile4, rect)
+
+                if self.list[y][x] == "O":
+                    tuile5 = pygame.image.load(self.screen_lab).convert_alpha()
+                    rect = tuile5.get_rect()
+                    rect.x = x * 33
+                    rect.y = y * 33
+                    self.screen_lab.blit(tuile5, rect)
 
         pygame.display.flip()

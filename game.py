@@ -9,19 +9,19 @@ class Game:
     def __init__(self):
 
         self.init_game()
-        self.init_persos()
         self.init_labyrinthe()
+        self.init_persos()
 
     def init_game(self):
         pygame.init()
         pygame.display.set_caption("macgiver")
         self.screen = pygame.display.set_mode((500, 500))
         self.background = pygame.image.load('ressource/fond.jpg')
-        self.invent = []
+
         self.pressed = {}
 
     def init_persos(self):
-        self.player = Player()
+        self.player = Player(self.labyrinthe.list)
         self.gardien = Gardien()
 
     def init_labyrinthe(self):
@@ -35,14 +35,12 @@ class Game:
 
             self.screen.blit(self.background, (0, 0))
             self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y))
-            # self.screen.blit(self.player.image_player, self.player.rect)
-            #self.screen.blit(self.gardien.image_gardien, self.gardien.rect)
 
             self.player.coup.draw(self.screen)
             self.labyrinthe.generate_tab()
 
-            # for seringue in self.player.coup:
-            # seringue.move()
+            for seringue in self.player.coup:
+                seringue.move()
 
             pygame.display.flip()
 
@@ -56,7 +54,8 @@ class Game:
 
                 if event.type == pygame.KEYUP:
                     self.pressed[event.key] = False
-
+                if self.pressed.get(pygame.K_SPACE) :
+                    self.player.use_seringue()
                 if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < 450:
                     self.player.move_right()
                 if self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0:
@@ -65,3 +64,5 @@ class Game:
                     self.player.move_down()
                 if self.pressed.get(pygame.K_UP) and self.player.rect.y > 20:
                     self.player.move_up()
+
+
