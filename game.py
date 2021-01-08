@@ -17,7 +17,6 @@ class Game:
         pygame.display.set_caption("macgiver")
         self.screen = pygame.display.set_mode((500, 500))
         self.background = pygame.image.load('ressource/fond.jpg')
-
         self.pressed = {}
 
     def init_persos(self):
@@ -30,14 +29,29 @@ class Game:
 
     def run(self):
 
+        self.game_over = pygame.image.load("ressource/victoire.png").convert()
+        self.win = pygame.image.load("ressource/perdu.png").convert()
         running = True
         while running:
 
             self.screen.blit(self.background, (0, 0))
             self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y))
-
+            self.screen.blit(self.gardien.image_g_loose, (self.gardien.rect.x, self.player.rect.y))
             self.player.coup.draw(self.screen)
             self.labyrinthe.generate_tab()
+
+            self.font = pygame.font.Font(None, 30)
+            self.text = self.font.render("nombre d'items : " + str(self.player.count_item) + "/3", 1, (255, 255, 255))
+            self.screen.blit(self.text, (250, 10))
+
+            if self.player.lab[self.player.rect.y // 33][self.player.rect.x // 33 + 1] == "S":
+                if self.player.count_item == 3:
+                    self.screen.blit(self.win, (200, 200))
+                    pygame.display.flip()
+
+                else:
+                    self.screen.blit(self.game_over, (200, 200))
+                    pygame.display.flip()
 
             for seringue in self.player.coup:
                 seringue.move()
@@ -54,9 +68,10 @@ class Game:
 
                 if event.type == pygame.KEYUP:
                     self.pressed[event.key] = False
-                if self.pressed.get(pygame.K_SPACE) :
+                if self.pressed.get(pygame.K_SPACE):
                     self.player.use_seringue()
-                if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < 450:
+
+                if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < 467:
                     self.player.move_right()
                 if self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0:
                     self.player.move_left()
@@ -65,4 +80,7 @@ class Game:
                 if self.pressed.get(pygame.K_UP) and self.player.rect.y > 20:
                     self.player.move_up()
 
-
+#  quitter = input("Souhaitez-vous quitter le casino (o/n) ? ")
+               # if quitter == "o" or quitter == "O":
+                # print("Vous quittez le casino avec vos gains.")
+                   # continuer_partie = False

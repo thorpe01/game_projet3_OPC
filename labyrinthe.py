@@ -25,26 +25,23 @@ class Labyrinthe(pygame.sprite.Sprite):
 
             for line in levels:  # For every line in our file
                 line = line.strip('\n').split(',')
-                # print(line)
+
                 level = []  # We create a another list
                 for x in line:
-                    # print(x)
+
                     if x != '\n':
                         level.append(x)
                 self.list.append(line)
 
-        from pprint import pprint
-        # pprint(self.liste)
-        #print(self.list)
+
+
     def generate_tab(self):
-        # print("init generate_tab")
+
 
         for x in range(0, 15):
 
             for y in range(0, 15):
                 if self.list[y][x] == "1":
-                    # print(x, y, "égale 1")
-                    # print(self.liste[x][y])
                     Mur = pygame.image.load(self.mur).convert_alpha()
                     rect_Mur = Mur.get_rect()
                     rect_Mur.x = x * 33
