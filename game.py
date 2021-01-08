@@ -44,7 +44,7 @@ class Game:
             self.text = self.font.render("nombre d'items : " + str(self.player.count_item) + "/3", 1, (255, 255, 255))
             self.screen.blit(self.text, (250, 10))
 
-            if self.player.lab[self.player.rect.y // 33][self.player.rect.x // 33 + 1] == "S":
+            if self.player.lab[self.player.rect.y // 33][(self.player.rect.x // 33 )+ 1] == "S":
                 if self.player.count_item == 3:
                     self.screen.blit(self.win, (200, 200))
                     pygame.display.flip()
