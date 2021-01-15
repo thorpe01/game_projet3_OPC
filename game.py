@@ -1,11 +1,13 @@
 import pygame
-
+import time
 from gardien import Gardien
 from labyrinthe import Labyrinthe
 from player import Player
 
 
 class Game:
+
+
     def __init__(self):
 
         self.init_game()
@@ -28,15 +30,12 @@ class Game:
         self.labyrinthe = Labyrinthe()
 
     def run(self):
-
-        self.game_over = pygame.image.load("ressource/victoire.png").convert()
-        self.win = pygame.image.load("ressource/perdu.png").convert()
         running = True
         while running:
 
             self.screen.blit(self.background, (0, 0))
             self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y))
-            self.screen.blit(self.gardien.image_g_loose, (self.gardien.rect.x, self.player.rect.y))
+
             self.player.coup.draw(self.screen)
             self.labyrinthe.generate_tab()
 
@@ -44,13 +43,29 @@ class Game:
             self.text = self.font.render("nombre d'items : " + str(self.player.count_item) + "/3", 1, (255, 255, 255))
             self.screen.blit(self.text, (250, 10))
 
-            if self.player.lab[self.player.rect.y // 33][(self.player.rect.x // 33 )+ 1] == "S":
+            if (self.player.rect.x // 33 + 1) < len(self.player.lab) and self.player.lab[self.player.rect.y // 33][
+                (self.player.rect.x // 33) + 1] == "S":
                 if self.player.count_item == 3:
-                    self.screen.blit(self.win, (200, 200))
-                    pygame.display.flip()
 
+                    self.font = pygame.font.Font(None, 50)
+                    self.text3 = self.font.render("good job  MAC !  ", 1, (255, 0, 0))
+                    self.text = self.font.render("YOU WIN  ", 1, (255, 0, 0))
+                    self.screen.blit(self.text, (200, 250))
+                    self.screen.blit(self.text3, (150, 100))
+                    self.screen.blit(self.gardien.image_g_loose, (self.gardien.rect.x, self.player.rect.y))
+
+                    pygame.display.flip()
+                    pygame.time.delay(5000)
                 else:
-                    self.screen.blit(self.game_over, (200, 200))
+
+                    self.font1 = pygame.font.Font(None, 30)
+                    self.font = pygame.font.Font(None, 50)
+                    self.text = self.font.render("GAME OVER ! ", 1, (255, 255, 255))
+                    # self.text1 = self.font1.render(" DO YOU WANT TO RETRY ?", 1, (255, 255, 255))
+                    # self.text2 = self.font1.render("YES" + " OR " + "NO", 1,(255, 255, 255))
+                    self.screen.blit(self.text, (150, 200))
+                    # self.screen.blit(self.text1, (130, 250))
+                    # self.screen.blit(self.text2, (200, 300))
                     pygame.display.flip()
 
             for seringue in self.player.coup:
@@ -68,9 +83,12 @@ class Game:
 
                 if event.type == pygame.KEYUP:
                     self.pressed[event.key] = False
+
+                # if self.pressed.get(pygame.K_y):
+                # running = False
+
                 if self.pressed.get(pygame.K_SPACE):
                     self.player.use_seringue()
-
                 if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < 467:
                     self.player.move_right()
                 if self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0:
@@ -79,8 +97,3 @@ class Game:
                     self.player.move_down()
                 if self.pressed.get(pygame.K_UP) and self.player.rect.y > 20:
                     self.player.move_up()
-
-#  quitter = input("Souhaitez-vous quitter le casino (o/n) ? ")
-               # if quitter == "o" or quitter == "O":
-                # print("Vous quittez le casino avec vos gains.")
-                   # continuer_partie = False

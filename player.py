@@ -1,4 +1,5 @@
 import pygame
+import time
 
 from seringue import Seringue
 from gardien import Gardien
@@ -6,10 +7,14 @@ from gardien import Gardien
 
 # création d'une classe joueur
 class Player(pygame.sprite.Sprite):
+    horloge = pygame.time.Clock()
 
-    def __init__(self, lab):
+    def __init__(self, lab, Game):
         super().__init__()
-        self.screen_play = pygame.display.set_mode((500, 500))
+        self.Game = Game()
+        self.image_g_loose = pygame.image.load('ressource/Gardien_loose.png')
+        self.rect_loose = self.image_g_loose.get_rect()
+        self.image_g_loose = pygame.transform.scale(self.image_g_loose, (30, 30))
         self.gardien = Gardien()
         self.coup = pygame.sprite.Group()
         self.image_empty = pygame.image.load('ressource/fond.jpg')
@@ -20,28 +25,25 @@ class Player(pygame.sprite.Sprite):
         self.image_player = pygame.transform.scale(self.image_player, (30, 30))
         self.rect.x = 0  # position init player en x
         self.rect.y = 0  # position init du player en y
+        self.surface = pygame.display.set_mode((500, 500))
         self.lab = lab
         self.count_item = 0
-
-
 
     def use_seringue(self):
         self.coup.add(Seringue(self))
 
     def move_right(self):
+
         i = self.rect.x // 33
         j = self.rect.y // 33
+
         if self.lab[j][i + 1] != "1":
             self.rect.x += 33
         if self.lab[j][i + 1] == "O1" or self.lab[j][i + 1] == "O3" or self.lab[j][i + 1] == "O2":
-            self.lab[j][i + 1] = self.gardien.rect_loose
+            self.lab[j][i + 1] = self.rect_empty
             self.count_item += 1
-        if self.lab[j][i + 1] == "S":
-            if self.count_item == 3:
-                self.lab[j][i + 1] = self.gardien.rect_loose
-
-
-        print('vous avez :', self.count_item, ' objet dans votre sac ')
+        if self.lab[j][i + 1] == "S" and self.count_item == 3:
+            self.lab[j][i + 1] = self.gardien.rect_loose
 
     def move_left(self):
         i = self.rect.x // 33
@@ -51,7 +53,6 @@ class Player(pygame.sprite.Sprite):
         if self.lab[j][i - 1] == "O1" or self.lab[j][i - 1] == "O3" or self.lab[j][i - 1] == "O2":
             self.lab[j][i - 1] = self.rect_empty
             self.count_item += 1
-        print('vous avez :', self.count_item, ' objet dans votre sac ')
 
     def move_up(self):
         i = self.rect.x // 33
@@ -61,8 +62,6 @@ class Player(pygame.sprite.Sprite):
         if self.lab[j - 1][i] == "O1" or self.lab[j - 1][i] == "O3" or self.lab[j - 1][i] == "O2":
             self.lab[j - 1][i] = self.rect_empty
             self.count_item += 1
-
-        print('vous avez :', self.count_item, ' objet dans votre sac ')
 
     def move_down(self):
         i = self.rect.x // 33
@@ -74,7 +73,35 @@ class Player(pygame.sprite.Sprite):
             self.lab[j + 1][i] = self.rect_empty
             self.count_item += 1
 
-        print('vous avez :', self.count_item, ' objet dans votre sac ')
+    def rejoueorquitt(self):
+        for event in pygame.event.get([pygame.KEYUP, pygame.KEYDOWN, pygame.QUIT]):
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.KEYUP:
+                continue
+            return None
+
+    def creaTexteObj(self, texte, Police):
+        texteSurface = Police.render(texte, True, (255, 0, 0))
+        return texteSurface, texteSurface.get_rect()
+
+    def message(self, texte):
+        GOTexte = pygame.font.Font(None, 150)
+        petitTexte = pygame.font.Font(None, 20)
+
+        GOTexteSurf, GOTexteRect = self.creaTexteObj(texte, GOTexte)
+        GOTexteRect.center = 250, 250
+        self.surface.blit(GOTexteSurf, GOTexteRect)
+
+        petitTexteSurf, petitTexteRect = self.creaTexteObj("appuyez sur une touche", petitTexte)
+        petitTexteRect.center = 50, 50
+        self.surface.blit(petitTexteSurf, petitTexteRect)
+        pygame.display.update()
+
+        while self.rejoueorquitt() == None:
+            self.horloge.tick()
 
 
-
+    def gameover(self):
+        self.message("game over ")
