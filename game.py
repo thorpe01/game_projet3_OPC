@@ -29,6 +29,15 @@ class Game:
         # print("init labyrinthe")
         self.labyrinthe = Labyrinthe()
 
+    def retry_or_quit(self):
+        for event in pygame.event.get([pygame.KEYUP, pygame.KEYDOWN, pygame.QUIT]):
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.KEYUP:
+                continue
+
+
     def run(self):
         running = True
         while running:
@@ -56,6 +65,7 @@ class Game:
 
                     pygame.display.flip()
                     pygame.time.delay(5000)
+
                 else:
 
                     self.font1 = pygame.font.Font(None, 30)
@@ -66,7 +76,12 @@ class Game:
                     self.screen.blit(self.text, (150, 200))
                     # self.screen.blit(self.text1, (130, 250))
                     # self.screen.blit(self.text2, (200, 300))
+
                     pygame.display.flip()
+                    break
+
+
+
 
             for seringue in self.player.coup:
                 seringue.move()

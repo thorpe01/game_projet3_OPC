@@ -25,6 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.image_player = pygame.transform.scale(self.image_player, (30, 30))
         self.rect.x = 0  # position init player en x
         self.rect.y = 0  # position init du player en y
+        self.surface = pygame.display.set_mode((500, 500))
         self.lab = lab
         self.count_item = 0
 
