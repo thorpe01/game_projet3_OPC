@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         i = self.rect.x // 33
         j = self.rect.y // 33
 
-        if self.lab[j][i + 1] != "1":
+        if self.lab[j][i + 1] != "1" and self.lab[j][i + 1] != "S":
             self.rect.x += 33
         if self.lab[j][i + 1] == "O1" or self.lab[j][i + 1] == "O3" or self.lab[j][i + 1] == "O2":
             self.lab[j][i + 1] = self.rect_empty

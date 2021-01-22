@@ -13,5 +13,5 @@ class Gardien(pygame.sprite.Sprite):
         self.image_g_loose = pygame.image.load('ressource/Gardien_loose.png')
         self.rect_loose = self.image_g_loose.get_rect()
         self.image_g_loose = pygame.transform.scale(self.image_g_loose, (30, 30))
-        self.rect.x = 464
-        self.rect.y = 434
+        self.rect_loose.x = 464
+        self.rect_loose.y = 434

@@ -41,8 +41,7 @@ class Game:
         pygame.display.flip()
 
     def run(self):
-        # retry = False
-        # while retry:
+
         running = True
         while running:
 
@@ -67,7 +66,7 @@ class Game:
                     self.text = self.font.render("YOU WIN  ", 1, (255, 0, 0))
                     self.screen.blit(self.text, (200, 250))
                     self.screen.blit(self.text3, (150, 100))
-                    self.screen.blit(self.gardien.image_g_loose, (self.gardien.rect.x, self.gardien.rect.y))
+                    self.screen.blit(self.gardien.image_g_loose, (self.gardien.rect_loose.x, self.gardien.rect_loose.y))
 
                     pygame.display.flip()
 
@@ -86,8 +85,8 @@ class Game:
                     pygame.display.flip()
                     pygame.time.delay(1000)
 
-            # for seringue in self.player.coup:
-            # seringue.move()
+            for seringue in self.player.coup:
+             seringue.move()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -108,7 +107,7 @@ class Game:
 
                 if self.pressed.get(pygame.K_SPACE):
                     self.player.use_seringue()
-                if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < 467:
+                if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < 450:
                     self.player.move_right()
                 if self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0:
                     self.player.move_left()
