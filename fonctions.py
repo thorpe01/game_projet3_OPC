@@ -11,3 +11,4 @@ with open("ressource/labyrinthe.txt") as levels:
             laby.append(level)
 
 
+

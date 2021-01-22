@@ -69,15 +69,15 @@ class Game:
                     self.screen.blit(self.gardien.image_g_loose, (self.gardien.rect_loose.x, self.gardien.rect_loose.y))
 
                     pygame.display.flip()
-
-
+                    pygame.time.delay(5000)
+                    break
                 else:
 
                     self.font1 = pygame.font.Font(None, 30)
                     self.font = pygame.font.Font(None, 50)
                     self.text = self.font.render("GAME OVER ! ", 1, (255, 255, 255))
                     self.text1 = self.font1.render(" DO YOU WANT TO RETRY ?", 1, (255, 255, 255))
-                    self.text2 = self.font1.render("Y" + " OR " + "N", 1, (255, 255, 255))
+                    self.text2 = self.font1.render(" Y " + " OR " + " N ", 1, (255, 255, 255))
                     self.screen.blit(self.text, (150, 200))
                     self.screen.blit(self.text1, (130, 250))
                     self.screen.blit(self.text2, (200, 300))
