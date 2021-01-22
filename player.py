@@ -7,7 +7,7 @@ from gardien import Gardien
 
 # création d'une classe joueur
 class Player(pygame.sprite.Sprite):
-    horloge = pygame.time.Clock()
+
 
     def __init__(self, lab):
         super().__init__()
@@ -45,6 +45,8 @@ class Player(pygame.sprite.Sprite):
         if self.lab[j][i + 1] == "S" and self.count_item == 3:
             self.lab[j][i + 1] = self.gardien.rect_loose
 
+
+
     def move_left(self):
         i = self.rect.x // 33
         j = self.rect.y // 33
@@ -74,7 +76,7 @@ class Player(pygame.sprite.Sprite):
             self.count_item += 1
 
     def rejoueorquitt(self):
-        for event in pygame.event.get([pygame.KEYUP, pygame.KEYDOWN, pygame.QUIT]):
+        for event in pygame.event.get([pygame.KEYUP, pygame.QUIT]):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()

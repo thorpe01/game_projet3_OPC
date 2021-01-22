@@ -17,3 +17,6 @@ class Seringue(pygame.sprite.Sprite):
         if self.rect.x < 450 :
             self.rect.x += self.velocity
 
+
+
+
