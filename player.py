@@ -8,7 +8,6 @@ from gardien import Gardien
 # création d'une classe joueur
 class Player(pygame.sprite.Sprite):
 
-
     def __init__(self, lab):
         super().__init__()
 
@@ -29,23 +28,23 @@ class Player(pygame.sprite.Sprite):
         self.lab = lab
         self.count_item = 0
 
-    def use_seringue(self):
-        self.coup.add(Seringue(self))
+    #def use_seringue(self):
+        #self.coup.add(Seringue(self))
 
     def move_right(self):
 
         i = self.rect.x // 33
         j = self.rect.y // 33
 
-        if self.lab[j][i + 1] != "1" and self.lab[j][i + 1] != "S":
+        if self.lab[j][i + 1] != "1" and  self.lab[j][i + 1] != "S":
             self.rect.x += 33
         if self.lab[j][i + 1] == "O1" or self.lab[j][i + 1] == "O3" or self.lab[j][i + 1] == "O2":
             self.lab[j][i + 1] = self.rect_empty
             self.count_item += 1
-        if self.lab[j][i + 1] == "S" and self.count_item == 3:
-            self.lab[j][i + 1] = self.gardien.rect_loose
+        if self.lab[j][i + 1] == "S" and self.count_item ==  3:
+            self.lab[j][i + 1] = self.rect_empty
 
-
+            pygame.time.wait(3000)
 
     def move_left(self):
         i = self.rect.x // 33
@@ -55,6 +54,10 @@ class Player(pygame.sprite.Sprite):
         if self.lab[j][i - 1] == "O1" or self.lab[j][i - 1] == "O3" or self.lab[j][i - 1] == "O2":
             self.lab[j][i - 1] = self.rect_empty
             self.count_item += 1
+
+
+
+
 
     def move_up(self):
         i = self.rect.x // 33
@@ -103,7 +106,6 @@ class Player(pygame.sprite.Sprite):
 
         while self.rejoueorquitt() == None:
             self.horloge.tick()
-
 
     def gameover(self):
         self.message("game over ")
