@@ -52,7 +52,7 @@ class Game:
             while running:
                 # print(self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y)))
                 # print("IS RUNNING")
-                # print(self.pressed)
+                print(self.pressed)
 
                 self.screen.blit(self.background, (0, 0))
 
@@ -64,33 +64,37 @@ class Game:
                 self.font = pygame.font.Font(None, 30)
                 self.text = self.font.render("nombre d'items : " + str(self.player.count_item) + "/3", 1,
                                              (255, 255, 255))
-
                 self.screen.blit(self.text, (250, 10))
+
                 self.font = pygame.font.Font(None, 30)
-                self.text = self.font.render("victoire: " + str(self.victory_count), 1,
-                                             (255, 255, 255))
-                self.screen.blit(self.text, (190, 467))
+                self.text7 = self.font.render("victoire: " + str(self.victory_count), 1,
+                                              (255, 255, 255))
+                self.screen.blit(self.text7, (190, 467))
+                pygame.display.flip()
+                if self.player.count_item == 3 and 450 > self.player.rect.x > 350:
+                    self.text4 = self.font.render("tu peux utiliser la seringue ", 1, (255, 0, 0))
+                    self.screen.blit(self.text4, (100, 33))
 
                 pygame.display.flip()
 
                 if (self.player.rect.x // 33 + 1) < len(self.player.lab) and self.player.lab[self.player.rect.y // 33][
                     (self.player.rect.x // 33) + 1] == "S":
                     if self.player.count_item == 3:
-
                         self.font = pygame.font.Font(None, 50)
                         self.text3 = self.font.render("good job  MAC !  ", 1, (255, 0, 0))
                         self.text = self.font.render("YOU WIN  ", 1, (255, 0, 0))
+                        self.text4 = self.font.render("you want to retry " + " (Y) "+"or"+" (N) ", 1, (255, 0, 0))
                         self.screen.blit(self.text, (200, 250))
                         self.screen.blit(self.text3, (150, 100))
+                        self.screen.blit(self.text4, (20, 350))
                         self.screen.blit(self.gardien.image_g_loose,
                                          (self.gardien.rect_loose.x, self.gardien.rect_loose.y))
 
                         pygame.display.update()
 
-
-
-                    else:
-
+                if (self.player.rect.x // 33 + 1) < len(self.player.lab) and self.player.lab[self.player.rect.y // 33][
+                    (self.player.rect.x // 33) + 1] == "S":
+                    if self.player.count_item != 3:
                         self.font1 = pygame.font.Font(None, 30)
                         self.font = pygame.font.Font(None, 50)
                         self.text = self.font.render("GAME OVER ! ", 1, (255, 255, 255))
@@ -102,8 +106,8 @@ class Game:
 
                         pygame.display.flip()
 
-                # for seringue in self.player.coup:
-                # seringue.move()
+                for seringue in self.player.coup:
+                    seringue.move()
 
                 for event in pygame.event.get():
 
@@ -122,8 +126,9 @@ class Game:
                         jouer = True
                         running = False
                         if self.player.count_item == 3:
+
                             self.victory_count += 1
-                        else :
+                        else:
                             self.victory_count -= 1
                         break
 
@@ -133,8 +138,8 @@ class Game:
 
                         break
 
-                    # if self.pressed.get(pygame.K_SPACE):
-                    # self.player.use_seringue()
+                    if self.pressed.get(pygame.K_SPACE) and self.player.count_item == 3 :
+                        self.player.use_seringue()
                     if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x < 450:
                         self.player.move_right()
                     if self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0:
@@ -144,7 +149,6 @@ class Game:
                     if self.pressed.get(pygame.K_UP) and self.player.rect.y > 20:
                         self.player.move_up()
                     pygame.display.flip()
-
 
             partie += 1
             pygame.display.flip()
