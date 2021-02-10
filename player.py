@@ -10,6 +10,9 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, lab):
         super().__init__()
+        self.mur = pygame.image.load("ressource/mur.png")
+        self.rect_wall = self.mur.get_rect()
+        self.mur = pygame.transform.scale(self.mur, (30, 30))
 
         self.image_g_loose = pygame.image.load('ressource/Gardien_loose.png')
         self.rect_loose = self.image_g_loose.get_rect()
@@ -19,6 +22,9 @@ class Player(pygame.sprite.Sprite):
         self.image_empty = pygame.image.load('ressource/fond.jpg')
         self.rect_empty = self.image_empty.get_rect()
         self.image_empty = pygame.transform.scale(self.image_empty, (30, 30))
+        self.image_wall = pygame.image.load('ressource/mur.png')
+        self.rect_wall = self.image_wall.get_rect()
+        self.image_wall= pygame.transform.scale(self.image_empty, (30, 30))
         self.image_player = pygame.image.load('ressource/MacGyver.png')
         self.rect = self.image_player.get_rect()
         self.image_player = pygame.transform.scale(self.image_player, (30, 30))
@@ -45,6 +51,12 @@ class Player(pygame.sprite.Sprite):
         if self.lab[j][i + 1] == "S" and self.count_item == 3:
             self.vp += 1
             self.lab[j][i + 1] = self.rect_empty
+            if self.count_item == 3 and 450 > self.rect.x > 350:
+                self.font = pygame.font.Font(None, 30)
+                self.text4 = self.font.render("tu peux utiliser la seringue ", 1, (255, 0, 0))
+                self.surface.blit(self.text4, (100, 33))
+
+            pygame.display.flip()
 
             pygame.time.wait(1000)
 
@@ -56,6 +68,8 @@ class Player(pygame.sprite.Sprite):
         if self.lab[j][i - 1] == "O1" or self.lab[j][i - 1] == "O3" or self.lab[j][i - 1] == "O2":
             self.lab[j][i - 1] = self.rect_empty
             self.count_item += 1
+        if self.lab[j][i -1] == "S" and self.count_item == 3:
+            self.lab[j][i-1]= self.rect_wall
 
     def move_up(self):
         i = self.rect.x // 33
@@ -76,5 +90,4 @@ class Player(pygame.sprite.Sprite):
             self.lab[j + 1][i] = self.rect_empty
             self.count_item += 1
 
-    def gameover(self):
-        self.message("game over ")
+
