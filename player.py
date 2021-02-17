@@ -1,6 +1,7 @@
 import pygame
 import time
 
+
 from seringue import Seringue
 from gardien import Gardien
 
@@ -8,11 +9,8 @@ from gardien import Gardien
 # création d'une classe joueur
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, lab):
+    def __init__(self, lab ):
         super().__init__()
-        self.mur = pygame.image.load("ressource/mur.png")
-        self.rect_wall = self.mur.get_rect()
-        self.mur = pygame.transform.scale(self.mur, (30, 30))
 
         self.image_g_loose = pygame.image.load('ressource/Gardien_loose.png')
         self.rect_loose = self.image_g_loose.get_rect()
@@ -37,24 +35,36 @@ class Player(pygame.sprite.Sprite):
 
     def use_seringue(self):
      self.coup.add(Seringue(self))
+    def stop(self):
+        i = self.rect.x // 33
+        j = self.rect.y // 33
+        if self.lab[j][i + 1] != "1" and self.lab[j][i + 1] == "S" and self.count_item == 3:
+            self.rect.x += 0
+        if self.lab[j][i - 1] == "0" and self.lab[j][i - 1] == "S" and self.count_item == 3:
+            self.lab[j][i - 1] = self.rect_wall
+        pygame.display.flip()
+        pygame.time.wait(1000)
+
 
     def move_right(self):
 
         i = self.rect.x // 33
         j = self.rect.y // 33
 
-        if self.lab[j][i + 1] != "1" and self.lab[j][i + 1] != "S":
+        if self.lab[j][i + 1] != "1" and self.lab[j][i + 1] != "S"  :
             self.rect.x += 33
+
         if self.lab[j][i + 1] == "O1" or self.lab[j][i + 1] == "O3" or self.lab[j][i + 1] == "O2":
             self.lab[j][i + 1] = self.rect_empty
             self.count_item += 1
         if self.lab[j][i + 1] == "S" and self.count_item == 3:
             self.vp += 1
-            self.lab[j][i + 1] = self.rect_empty
-            if self.count_item == 3 and 450 > self.rect.x > 350:
-                self.font = pygame.font.Font(None, 30)
-                self.text4 = self.font.render("tu peux utiliser la seringue ", 1, (255, 0, 0))
-                self.surface.blit(self.text4, (100, 33))
+
+
+        if self.count_item == 3 and 350 < self.rect.x < 400:
+            self.font = pygame.font.Font(None, 30)
+            self.text4 = self.font.render("tu peux utiliser la seringue ", 1, (255, 0, 0))
+            self.surface.blit(self.text4, (100, 33))
 
             pygame.display.flip()
 
@@ -63,13 +73,14 @@ class Player(pygame.sprite.Sprite):
     def move_left(self):
         i = self.rect.x // 33
         j = self.rect.y // 33
-        if self.lab[j][i - 1] != "1":
+        if self.lab[j][i - 1] != "1" :
             self.rect.x -= 33
         if self.lab[j][i - 1] == "O1" or self.lab[j][i - 1] == "O3" or self.lab[j][i - 1] == "O2":
             self.lab[j][i - 1] = self.rect_empty
             self.count_item += 1
-        if self.lab[j][i -1] == "S" and self.count_item == 3:
-            self.lab[j][i-1]= self.rect_wall
+
+        if self.lab[j][i - 1] == "S" and self.count_item == 3 and self.lab[j][i - 1] != "0" :
+            self.rect.x -= 33
 
     def move_up(self):
         i = self.rect.x // 33
