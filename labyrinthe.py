@@ -1,3 +1,5 @@
+import random
+
 import pygame
 
 
@@ -37,10 +39,10 @@ class Labyrinthe(pygame.sprite.Sprite):
 
     def generate_tab(self):
 
-
         for x in range(0, 15):
 
             for y in range(0, 15):
+
                 if self.list[y][x] == "1":
                     Mur = pygame.image.load(self.mur).convert_alpha()
                     rect_Mur = Mur.get_rect()
@@ -55,6 +57,7 @@ class Labyrinthe(pygame.sprite.Sprite):
                     rect.y = y * 33
 
                     self.screen_lab.blit(tuile1, rect)
+
                 if self.list[y][x] == "O1":
                     tuile2 = pygame.image.load(self.objet1).convert_alpha()
                     rect = tuile2.get_rect()

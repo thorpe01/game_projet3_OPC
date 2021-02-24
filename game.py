@@ -32,7 +32,7 @@ class Game:
 
     def run(self):
 
-        partie = 1
+        partie = 1       # initialisation d'une partie
         jouer = True
 
         while jouer:
