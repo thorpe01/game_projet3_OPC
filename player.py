@@ -35,16 +35,6 @@ class Player(pygame.sprite.Sprite):
 
     def use_seringue(self):
      self.coup.add(Seringue(self))
-    def stop(self):
-        i = self.rect.x // 33
-        j = self.rect.y // 33
-        if self.lab[j][i + 1] != "1" and self.lab[j][i + 1] == "S" and self.count_item == 3:
-            self.rect.x += 0
-        if self.lab[j][i - 1] == "0" and self.lab[j][i - 1] == "S" and self.count_item == 3:
-            self.lab[j][i - 1] = self.rect_wall
-        pygame.display.flip()
-        pygame.time.wait(1000)
-
 
     def move_right(self):
 

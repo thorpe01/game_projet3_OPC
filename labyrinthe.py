@@ -1,4 +1,5 @@
 import random
+import time
 
 import pygame
 
@@ -22,6 +23,7 @@ class Labyrinthe(pygame.sprite.Sprite):
         self.objet1 = objet1
         self.mur = mur
         self.gardien_image = gardien_image
+        self.items = [self.objet1, self.objet2, self.objet3]
 
         with open(liste) as levels:
 
@@ -35,14 +37,27 @@ class Labyrinthe(pygame.sprite.Sprite):
                         level.append(x)
                 self.list.append(line)
 
+    def obj_rand(self, back, fond):
+        back.blit(fond, (0, 0))
+        l = 0
+        for x in range(0, 15):
+            for y in range(0, 15):
+                r = random.randint(1, 15)
+                if r == 1 and len(self.items) > l and self.list[y][x] not in ["1", "S"] and x != 0 and y != 0:
+                    tuile = pygame.image.load(self.items[l]).convert_alpha()
+                    rect = tuile.get_rect()
+                    rect.x = x * 33
+                    rect.y = y * 33
+                    self.screen_lab.blit(tuile, rect)
+
+                    # self.items.pop(0)
+                    l += 1
 
 
     def generate_tab(self):
 
         for x in range(0, 15):
-
             for y in range(0, 15):
-
                 if self.list[y][x] == "1":
                     Mur = pygame.image.load(self.mur).convert_alpha()
                     rect_Mur = Mur.get_rect()
@@ -58,28 +73,6 @@ class Labyrinthe(pygame.sprite.Sprite):
 
                     self.screen_lab.blit(tuile1, rect)
 
-                if self.list[y][x] == "O1":
-                    tuile2 = pygame.image.load(self.objet1).convert_alpha()
-                    rect = tuile2.get_rect()
-                    tuile2 = pygame.transform.scale(tuile2, (30, 30))
-                    rect.x = x * 33
-                    rect.y = y * 33
-                    self.screen_lab.blit(tuile2, rect)
-
-                if self.list[y][x] == "O2":
-                    tuile3 = pygame.image.load(self.objet2).convert_alpha()
-                    rect = tuile3.get_rect()
-                    rect.x = x * 33
-                    rect.y = y * 33
-                    self.screen_lab.blit(tuile3, rect)
-
-                if self.list[y][x] == "O3":
-                    tuile4 = pygame.image.load(self.objet3).convert_alpha()
-                    rect = tuile4.get_rect()
-                    rect.x = x * 33
-                    rect.y = y * 33
-                    self.screen_lab.blit(tuile4, rect)
-
                 if self.list[y][x] == "O":
                     tuile5 = pygame.image.load(self.screen_lab).convert_alpha()
                     rect = tuile5.get_rect()
@@ -87,4 +80,4 @@ class Labyrinthe(pygame.sprite.Sprite):
                     rect.y = y * 33
                     self.screen_lab.blit(tuile5, rect)
 
-        pygame.display.flip()
+                    pygame.display.flip()

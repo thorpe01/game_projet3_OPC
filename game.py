@@ -32,23 +32,25 @@ class Game:
 
     def run(self):
 
-        partie = 1       # initialisation d'une partie
+        partie = 1  # initialisation d'une partie
         jouer = True
 
         while jouer:
 
+            # self.player.coup.draw(self.screen)
+
             running = True
 
             while running:
+                print(self.labyrinthe.generate_tab())
+                #print(self.pressed)
+                #print(self.player.lab[self.player.rect.y // 33][
+                          #(self.player.rect.x // 33) + 1])
 
-                print(self.pressed)
-                print(self.player.lab[self.player.rect.y // 33][
-                          (self.player.rect.x // 33) + 1])
                 self.screen.blit(self.background, (0, 0))
-
+                self.labyrinthe.obj_rand(self.screen ,self.background)
                 self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y))
 
-                self.player.coup.draw(self.screen)
                 self.labyrinthe.generate_tab()
 
                 self.font = pygame.font.Font(None, 30)
@@ -60,6 +62,7 @@ class Game:
                 self.text7 = self.font.render("victoire: " + str(self.victory_count), 1,
                                               (255, 255, 255))
                 self.screen.blit(self.text7, (190, 467))
+
                 pygame.display.flip()
 
                 if (self.player.rect.x // 33 + 1) < len(self.player.lab) and \
@@ -87,12 +90,11 @@ class Game:
                         self.font = pygame.font.Font(None, 50)
                         self.text = self.font.render("GAME OVER ! ", 1, (255, 255, 255))
                         self.text1 = self.font1.render(" RETRY AGAIN !", 1, (255, 255, 255))
-                        #self.text2 = self.font1.render(" Y " + " OR " + " N ", 1, (255, 255, 255))
+                        # self.text2 = self.font1.render(" Y " + " OR " + " N ", 1, (255, 255, 255))
                         self.screen.blit(self.text, (150, 200))
                         self.screen.blit(self.text1, (180, 250))
-                        #self.screen.blit(self.text2, (200, 300))
+                        # self.screen.blit(self.text2, (200, 300))
                         self.victory_count -= 1
-
 
                         pygame.display.flip()
                         pygame.time.wait(5000)
