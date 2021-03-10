@@ -13,6 +13,7 @@ class Game:
         self.init_labyrinthe()
         self.init_persos()
         self.victory_count = 0
+        self.items_position = []
 
     def init_game(self):
         pygame.init()
@@ -23,7 +24,7 @@ class Game:
         self.pressed = {}
 
     def init_persos(self):
-        self.player = Player(self.labyrinthe.list)
+        self.player = Player(self.labyrinthe.list,self.background)
         self.gardien = Gardien()
 
     def init_labyrinthe(self):
@@ -39,8 +40,7 @@ class Game:
 
             self.screen.blit(self.background, (0, 0))
 
-            self.labyrinthe.obj_rand(self.screen, self.background)
-            # self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y))
+            self.items_position = self.labyrinthe.obj_rand(self.screen, self.background)
             self.labyrinthe.generate_tab()
 
             pygame.display.flip()
@@ -51,9 +51,8 @@ class Game:
 
                 self.screen.blit(self.background, (0, 0))
                 self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y))
-                self.player.coup.draw(self.screen)
+                self.player.coup.draw(self.screen) #seringue
                 self.labyrinthe.generate_tab()
-                # pygame.display.update()
 
                 self.font = pygame.font.Font(None, 30)
                 self.text = self.font.render("nombre d'items : " + str(self.player.count_item) + "/3", 1,
@@ -134,13 +133,13 @@ class Game:
                     if self.pressed.get(pygame.K_SPACE) and self.player.count_item == 0:
                         self.player.use_seringue()
                     if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x < 450:
-                        self.player.move_right()
+                        self.player.move_right(self.items_position)
                     if self.pressed.get(pygame.K_LEFT) and self.player.rect.x > 0:
-                        self.player.move_left()
+                        self.player.move_left(self.items_position)
                     if self.pressed.get(pygame.K_DOWN) and self.player.rect.y < 450:
-                        self.player.move_down()
+                        self.player.move_down(self.items_position)
                     if self.pressed.get(pygame.K_UP) and self.player.rect.y > 20:
-                        self.player.move_up()
+                        self.player.move_up(self.items_position)
                     pygame.display.flip()
 
             partie += 1

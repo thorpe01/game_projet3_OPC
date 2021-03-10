@@ -39,13 +39,14 @@ class Labyrinthe:
 
     def obj_rand(self,back,fond):
         back.blit(fond, (0, 0))
+        items_position = []
 
         l = 0
         for x in range(0, 15):
             for y in range(0, 15):
                 r = random.randint(1, 15)
                 if r == 1 and len(self.items) > l and self.list[y][x] not in ["1",
-                                                                              "S"] and x != 0 and y != 0:
+                                                                              "S"] and x != 0 and y != 0 and (y,x) not in items_position:
                     tuile = pygame.image.load(self.items[l]).convert_alpha()
                     rect = tuile.get_rect()
                     rect.x = x * 33
@@ -53,7 +54,9 @@ class Labyrinthe:
                     fond.blit(tuile, rect)
                     l += 1
                     pygame.display.update()
-                    # self.items.pop(0)
+                    items_position.append((y,x))
+        print(items_position)
+        return items_position
 
 
     def generate_tab(self):

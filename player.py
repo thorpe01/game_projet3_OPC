@@ -8,7 +8,7 @@ from gardien import Gardien
 # création d'une classe joueur
 class Player:
 
-    def __init__(self, lab):
+    def __init__(self, lab, back):
         #super().__init__()
 
         self.image_g_loose = pygame.image.load('ressource/Gardien_loose.png')
@@ -29,6 +29,7 @@ class Player:
         self.rect.y = 0  # position init du player en y
         self.surface = pygame.display.set_mode((500, 500))
         self.lab = lab
+        self.back =back
 
         self.count_item = 0
         self.vp = 0
@@ -36,15 +37,20 @@ class Player:
     def use_seringue(self):
         self.coup.add(Seringue(self))
 
-    def move_right(self):
+    def move_right(self, items_position):
 
         i = self.rect.x // 33
         j = self.rect.y // 33
 
         if self.lab[j][i + 1] != "1" and self.lab[j][i + 1] != "S":
             self.rect.x += 33
-        if self.lab[j][i + 1] == "O1" or self.lab[j][i + 1] == "O3" or self.lab[j][i + 1] == "O2":
-            self.lab[j][i + 1] = self.rect_empty
+        #if self.lab[j][i + 1] == "O1" or self.lab[j][i + 1] == "O3" or self.lab[j][i + 1] == "O2":
+        if (j, i +1) in items_position:
+            #self.lab[j][i + 1] = self.rect_empty
+            rect_Mur = self.image_empty.get_rect()
+            rect_Mur.x = (i+1) * 33
+            rect_Mur.y = j * 33
+            self.back.blit(self.image_empty,rect_Mur)
             self.count_item += 1
         if self.lab[j][i + 1] == "S" and self.count_item == 3:
             self.vp += 1
@@ -58,33 +64,48 @@ class Player:
 
             pygame.time.wait(1000)
 
-    def move_left(self):
+    def move_left(self, items_position):
         i = self.rect.x // 33
         j = self.rect.y // 33
         if self.lab[j][i - 1] != "1":
             self.rect.x -= 33
-        if self.lab[j][i - 1] == "O1" or self.lab[j][i - 1] == "O3" or self.lab[j][i - 1] == "O2":
-            self.lab[j][i - 1] = self.rect_empty
+        #if self.lab[j][i - 1] == "O1" or self.lab[j][i - 1] == "O3" or self.lab[j][i - 1] == "O2":
+        if (j , i - 1) in items_position:
+            #self.lab[j][i - 1] = self.rect_empty
+            rect_Mur = self.image_empty.get_rect()
+            rect_Mur.x = (i - 1) * 33
+            rect_Mur.y = j * 33
+            self.back.blit(self.image_empty, rect_Mur)
             self.count_item += 1
 
         if self.lab[j][i - 1] == "S" and self.count_item == 3 and self.lab[j][i - 1] != "0":
             self.rect.x -= 33
 
-    def move_up(self):
+    def move_up(self, items_position):
         i = self.rect.x // 33
         j = self.rect.y // 33
         if self.lab[j - 1][i] != "1":
             self.rect.y -= 33
-        if self.lab[j - 1][i] == "O1" or self.lab[j - 1][i] == "O3" or self.lab[j - 1][i] == "O2":
-            self.lab[j - 1][i] = self.rect_empty
+        #if self.lab[j - 1][i] == "O1" or self.lab[j - 1][i] == "O3" or self.lab[j - 1][i] == "O2":
+        if (j - 1, i) in items_position:
+            #self.lab[j - 1][i] = self.rect_empty
+            rect_Mur = self.image_empty.get_rect()
+            rect_Mur.x = i  * 33
+            rect_Mur.y = (j-1) * 33
+            self.back.blit(self.image_empty, rect_Mur)
             self.count_item += 1
 
-    def move_down(self):
+    def move_down(self, items_position):
         i = self.rect.x // 33
         j = self.rect.y // 33
 
         if self.lab[j + 1][i] != "1":
             self.rect.y += 33
-        if self.lab[j + 1][i] == "O1" or self.lab[j + 1][i] == "O3" or self.lab[j + 1][i] == "O2":
-            self.lab[j + 1][i] = self.rect_empty
+       # if self.lab[j + 1][i] == "O1" or self.lab[j + 1][i] == "O3" or self.lab[j + 1][i] == "O2":
+        if (j+1,i) in items_position:
+            #self.lab[j + 1][i] = self.rect_empty
+            rect_Mur = self.image_empty.get_rect()
+            rect_Mur.x = i * 33
+            rect_Mur.y = (j + 1) * 33
+            self.back.blit(self.image_empty, rect_Mur)
             self.count_item += 1
