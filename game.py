@@ -28,7 +28,7 @@ class Game:
 
     def init_labyrinthe(self):
         # print("init labyrinthe")
-        self.labyrinthe = Labyrinthe()
+        self.labyrinthe = Labyrinthe(self.background)
 
     def run(self):
 
@@ -37,21 +37,23 @@ class Game:
 
         while jouer:
 
-            # self.player.coup.draw(self.screen)
+            self.screen.blit(self.background, (0, 0))
+
+            self.labyrinthe.obj_rand(self.screen, self.background)
+            # self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y))
+            self.labyrinthe.generate_tab()
+
+            pygame.display.flip()
 
             running = True
 
             while running:
-                print(self.labyrinthe.generate_tab())
-                #print(self.pressed)
-                #print(self.player.lab[self.player.rect.y // 33][
-                          #(self.player.rect.x // 33) + 1])
 
                 self.screen.blit(self.background, (0, 0))
-                self.labyrinthe.obj_rand(self.screen ,self.background)
                 self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y))
-
+                self.player.coup.draw(self.screen)
                 self.labyrinthe.generate_tab()
+                # pygame.display.update()
 
                 self.font = pygame.font.Font(None, 30)
                 self.text = self.font.render("nombre d'items : " + str(self.player.count_item) + "/3", 1,
@@ -129,7 +131,7 @@ class Game:
 
                         break
 
-                    if self.pressed.get(pygame.K_SPACE) and self.player.count_item == 3:
+                    if self.pressed.get(pygame.K_SPACE) and self.player.count_item == 0:
                         self.player.use_seringue()
                     if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x < 450:
                         self.player.move_right()
