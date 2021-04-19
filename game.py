@@ -13,7 +13,6 @@ class Game:
         self.init_labyrinthe()
         self.init_persos()
         self.victory_count = 0
-        self.items_position = []
 
     def init_game(self):
         pygame.init()
@@ -24,11 +23,10 @@ class Game:
         self.pressed = {}
 
     def init_persos(self):
-        self.player = Player(self.labyrinthe.list,self.background)
+        self.player = Player(self.labyrinthe.list, self.background)
         self.gardien = Gardien()
 
     def init_labyrinthe(self):
-        # print("init labyrinthe")
         self.labyrinthe = Labyrinthe(self.background)
 
     def run(self):
@@ -37,9 +35,6 @@ class Game:
         jouer = True
 
         while jouer:
-
-            self.screen.blit(self.background, (0, 0))
-
             self.items_position = self.labyrinthe.obj_rand(self.screen, self.background)
             self.labyrinthe.generate_tab()
 
@@ -50,12 +45,13 @@ class Game:
             while running:
 
                 self.screen.blit(self.background, (0, 0))
+                self.player.coup.draw(self.screen)  # seringue
                 self.screen.blit(self.player.image_player, (self.player.rect.x, self.player.rect.y))
-                self.player.coup.draw(self.screen) #seringue
+
                 self.labyrinthe.generate_tab()
 
                 self.font = pygame.font.Font(None, 30)
-                self.text = self.font.render("nombre d'items : " + str(self.player.count_item) + "/3", 1,
+                self.text = self.font.render("nombre d'items : " + str(len(self.player.obj_ramasse)) + "/3", 1,
                                              (255, 255, 255))
                 self.screen.blit(self.text, (250, 10))
 
@@ -63,13 +59,16 @@ class Game:
                 self.text7 = self.font.render("victoire: " + str(self.victory_count), 1,
                                               (255, 255, 255))
                 self.screen.blit(self.text7, (190, 467))
-
+                if self.player.count_item == 3 and 350 < self.player.rect.x < 400:
+                    self.font = pygame.font.Font(None, 30)
+                    self.text4 = self.font.render("tu peux utiliser la seringue ", 1, (255, 0, 0))
+                    self.screen.blit(self.text4, (100, 33))
                 pygame.display.flip()
 
                 if (self.player.rect.x // 33 + 1) < len(self.player.lab) and \
                         self.player.lab[self.player.rect.y // 33][
                             (self.player.rect.x // 33) + 1] == "S":
-                    if self.player.count_item == 3:
+                    if len(self.player.obj_ramasse) == 3:
                         self.font = pygame.font.Font(None, 50)
                         self.text3 = self.font.render("good job  MAC !  ", 1, (255, 0, 0))
                         self.text = self.font.render("YOU WIN  ", 1, (255, 0, 0))
@@ -86,15 +85,13 @@ class Game:
                 if (self.player.rect.x // 33 + 1) < len(self.player.lab) and \
                         self.player.lab[self.player.rect.y // 33][
                             (self.player.rect.x // 33) + 1] == "S":
-                    if self.player.count_item != 3:
+                    if len(self.player.obj_ramasse) != 3:
                         self.font1 = pygame.font.Font(None, 30)
                         self.font = pygame.font.Font(None, 50)
                         self.text = self.font.render("GAME OVER ! ", 1, (255, 255, 255))
                         self.text1 = self.font1.render(" RETRY AGAIN !", 1, (255, 255, 255))
-                        # self.text2 = self.font1.render(" Y " + " OR " + " N ", 1, (255, 255, 255))
                         self.screen.blit(self.text, (150, 200))
                         self.screen.blit(self.text1, (180, 250))
-                        # self.screen.blit(self.text2, (200, 300))
                         self.victory_count -= 1
 
                         pygame.display.flip()
@@ -130,7 +127,7 @@ class Game:
 
                         break
 
-                    if self.pressed.get(pygame.K_SPACE) and self.player.count_item == 0:
+                    if self.pressed.get(pygame.K_SPACE) and self.player.count_item == 3:
                         self.player.use_seringue()
                     if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x < 450:
                         self.player.move_right(self.items_position)

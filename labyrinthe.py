@@ -1,13 +1,10 @@
 import random
-import time
-
 import pygame
 
 
 class Labyrinthe:
 
-    def __init__(self,back):
-        #super().__init__()
+    def __init__(self, back):
 
         mur = "ressource/mur.png"
         gardien_image = "ressource/Gardien.png"
@@ -16,7 +13,6 @@ class Labyrinthe:
         objet3 = "ressource/aiguille1.png"
         objet1 = "ressource/tube_plastique.png"
         self.back = back
-        #self.screen_lab = pygame.display.set_mode((500, 500))
         self.list = []
         self.objet3 = objet3
         self.objet2 = objet2
@@ -24,7 +20,7 @@ class Labyrinthe:
         self.mur = mur
         self.gardien_image = gardien_image
         self.items = [self.objet1, self.objet2, self.objet3]
-
+        self.items_position = []
         with open(liste) as levels:
 
             for line in levels:  # For every line in our file
@@ -37,16 +33,17 @@ class Labyrinthe:
                         level.append(x)
                 self.list.append(line)
 
-    def obj_rand(self,back,fond):
+    def obj_rand(self, back, fond):
         back.blit(fond, (0, 0))
-        items_position = []
+        self.items_position = []
 
         l = 0
         for x in range(0, 15):
             for y in range(0, 15):
                 r = random.randint(1, 15)
                 if r == 1 and len(self.items) > l and self.list[y][x] not in ["1",
-                                                                              "S"] and x != 0 and y != 0 and (y,x) not in items_position:
+                                                                              "S"] and x != 0 and y != 0 and (
+                y, x) not in self.items_position:
                     tuile = pygame.image.load(self.items[l]).convert_alpha()
                     rect = tuile.get_rect()
                     rect.x = x * 33
@@ -54,10 +51,10 @@ class Labyrinthe:
                     fond.blit(tuile, rect)
                     l += 1
                     pygame.display.update()
-                    items_position.append((y,x))
-        print(items_position)
-        return items_position
+                    self.items_position.append((y, x))
 
+        print(self.items_position)
+        return self.items_position
 
     def generate_tab(self):
 
@@ -85,6 +82,4 @@ class Labyrinthe:
                     rect.y = y * 33
                     self.back.blit(tuile5, rect)
 
-
                     pygame.display.flip()
-
